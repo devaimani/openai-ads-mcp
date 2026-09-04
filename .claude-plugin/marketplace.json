@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "aimani",
+  "owner": {
+    "name": "Aimani",
+    "url": "https://aimani.de"
+  },
+  "plugins": [
+    {
+      "name": "chatgpt-ads",
+      "source": "./",
+      "description": "Six skills plus an MCP server for OpenAI Ads: campaign structure, ad copy against verified character limits, context hints, postcode-level geo targeting, and reporting that refuses to score thin data."
+    }
+  ]
+}

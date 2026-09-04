@@ -1,0 +1,29 @@
+{
+  "name": "chatgpt-ads",
+  "version": "0.1.0",
+  "description": "Plan, build and review OpenAI Ads (ChatGPT Ads) campaigns. Bundles six skills with an MCP server for the Advertiser API.",
+  "author": {
+    "name": "Aimani",
+    "url": "https://aimani.de"
+  },
+  "homepage": "https://aimani.de/chatgpt-ads-mcp",
+  "repository": "https://github.com/devaimani/openai-ads-mcp",
+  "license": "MIT",
+  "keywords": [
+    "chatgpt-ads",
+    "openai-ads",
+    "advertising",
+    "ppc",
+    "campaign-management",
+    "mcp"
+  ],
+  "mcpServers": {
+    "chatgpt-ads": {
+      "command": "uvx",
+      "args": ["chatgpt-ads-mcp"],
+      "env": {
+        "OPENAI_ADS_API_KEY": "${OPENAI_ADS_API_KEY}"
+      }
+    }
+  }
+}
