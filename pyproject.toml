@@ -1,11 +1,12 @@
 [project]
-name = "openai-ads-mcp"
+name = "chatgpt-ads-mcp"
 version = "0.1.0"
 description = "MCP server for the OpenAI Ads Advertiser API, with retries, response budgeting and postcode-level location lookup"
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
-keywords = ["mcp", "openai-ads", "chatgpt-ads", "advertising"]
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["mcp", "openai-ads", "chatgpt-ads", "advertising", "model-context-protocol"]
 
 dependencies = [
     "mcp[cli]>=1.26,<2",
@@ -13,7 +14,22 @@ dependencies = [
     "pydantic>=2.9",
 ]
 
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Financial",
+]
+
+[project.urls]
+Homepage = "https://github.com/devaimani/openai-ads-mcp"
+Repository = "https://github.com/devaimani/openai-ads-mcp"
+Issues = "https://github.com/devaimani/openai-ads-mcp/issues"
+
 [project.scripts]
+chatgpt-ads-mcp = "openai_ads_mcp.__main__:main"
 openai-ads-mcp = "openai_ads_mcp.__main__:main"
 
 [dependency-groups]

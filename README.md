@@ -1,4 +1,4 @@
-# openai-ads-mcp
+# chatgpt-ads-mcp
 
 An MCP server plus Claude skills for the
 [OpenAI Ads Advertiser API](https://developers.openai.com/ads) (ChatGPT Ads).
@@ -66,6 +66,8 @@ uv sync --group dev
 uv run pytest
 ```
 
+PyPI: [`chatgpt-ads-mcp`](https://pypi.org/project/chatgpt-ads-mcp/)
+
 ### Configuration
 
 Copy `.env.example` to `.env`:
@@ -81,17 +83,22 @@ One key covers exactly one ad account; there is no `account_id` parameter.
 
 ### Register as an MCP server
 
+No clone, no install — `uvx` fetches the package on first start:
+
 ```json
 {
   "mcpServers": {
-    "openai-ads": {
-      "command": "uv",
-      "args": ["run", "--directory", "/path/to/openai-ads-tools", "openai-ads-mcp"],
+    "chatgpt-ads": {
+      "command": "uvx",
+      "args": ["chatgpt-ads-mcp"],
       "env": { "OPENAI_ADS_API_KEY": "sk-..." }
     }
   }
 }
 ```
+
+To run from a checkout instead, use `"command": "uv"` with
+`"args": ["run", "--directory", "/path/to/openai-ads-tools", "chatgpt-ads-mcp"]`.
 
 ### Docker
 
