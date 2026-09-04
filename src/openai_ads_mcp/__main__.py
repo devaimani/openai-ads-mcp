@@ -1,4 +1,4 @@
-"""Einstiegspunkt. Transport ist stdio — stdout gehört dem JSON-RPC."""
+"""Entry point. Transport is stdio; stdout belongs to JSON-RPC."""
 
 from __future__ import annotations
 
@@ -8,8 +8,8 @@ import sys
 def main() -> int:
     try:
         from .server import mcp
-    except Exception as exc:  # Konfigurationsfehler lesbar melden
-        print(f"Start fehlgeschlagen: {exc}", file=sys.stderr)
+    except Exception as exc:  # report configuration errors readably
+        print(f"Failed to start: {exc}", file=sys.stderr)
         return 1
 
     mcp.run()
