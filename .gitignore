@@ -1,0 +1,35 @@
+# Credentials — never commit
+.env
+.env.*
+!.env.example
+
+# Internal planning and client-specific notes
+.private/
+PLAN.md
+NOTES.md
+*.private.md
+
+# Raw API probe output — may contain account identifiers
+probe_*.json
+geo_*.json
+*_log.txt
+*.probe.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp

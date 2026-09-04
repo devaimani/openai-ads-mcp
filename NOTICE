@@ -1,0 +1,24 @@
+This project adopts design patterns from the following MIT-licensed projects.
+No code was copied verbatim; the patterns were reimplemented.
+
+trakkr-aisearch/openai-ads-mcp (MIT, Copyright Trakkr)
+  - Paused-by-default safety model for create tools, with activation moved to
+    separate state-setting tools
+  - Response character budgeting by iteratively trimming the longest list
+  - Splitting API errors into hard protocol errors and soft JSON payloads
+  - Base URL hardening for overridden endpoints
+
+HYPD-AI/openai-ads-mcp (MIT, Copyright HYPD AI)
+  - Bracketed-array query encoding for insights parameters
+  - The micros-versus-decimal distinction surfaced in tool descriptions
+
+fseixas/chatgpt-ads-builder (MIT, Copyright Softo)
+  - Intent clusters as the axis for ad group structure
+  - Character-economy tactics for short ad copy
+
+AgriciDaniel/claude-seo (MIT)
+  - Three-layer skill architecture: skill for knowledge and routing, agent for
+    constrained execution, script for deterministic computation
+  - Data sufficiency gating that refuses to score on thin data
+  - Anti-misinformation reference files alongside factual references
+  - Requiring a falsification criterion on every recommendation
