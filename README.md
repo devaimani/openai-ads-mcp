@@ -81,7 +81,21 @@ OPENAI_ADS_MCP_READONLY=0
 
 One key covers exactly one ad account; there is no `account_id` parameter.
 
-### Add it to Claude Code
+### Install everything at once (Claude Code)
+
+The plugin bundles the six skills with the MCP server, so one install covers
+both:
+
+```bash
+claude plugin marketplace add devaimani/openai-ads-mcp
+claude plugin install chatgpt-ads@aimani
+```
+
+Set `OPENAI_ADS_API_KEY` in your environment beforehand; the plugin passes it
+through to the server.
+
+### Add just the MCP server
+
 
 One command, no clone and no install — `uvx` fetches the package on first run:
 
