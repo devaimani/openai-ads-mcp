@@ -81,9 +81,28 @@ OPENAI_ADS_MCP_READONLY=0
 
 One key covers exactly one ad account; there is no `account_id` parameter.
 
-### Register as an MCP server
+### Add it to Claude Code
 
-No clone, no install — `uvx` fetches the package on first start:
+One command, no clone and no install — `uvx` fetches the package on first run:
+
+```bash
+claude mcp add chatgpt-ads -e OPENAI_ADS_API_KEY=sk-... -- uvx chatgpt-ads-mcp
+```
+
+Read-only, if you want to look before you touch anything:
+
+```bash
+claude mcp add chatgpt-ads \
+  -e OPENAI_ADS_API_KEY=sk-... \
+  -e OPENAI_ADS_MCP_READONLY=1 \
+  -- uvx chatgpt-ads-mcp
+```
+
+Verify with `claude mcp list`, then ask the assistant to call `get_account`.
+
+### Other MCP clients
+
+Any client that speaks stdio takes the same command:
 
 ```json
 {
