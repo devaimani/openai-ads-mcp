@@ -129,19 +129,34 @@ Delivery requires campaign **and** ad group **and** ad to be active.
 `crawl_failed` reads like the landing page was unreachable. It can also mean
 the page loaded fine and its JavaScript did not.
 
-Measured on 2026-09-14: one of six ads on the same `target_url` was rejected
-with `crawl_failed`. The nginx log showed 12 review crawls, **all HTTP 200
-with the full 30 KB of HTML**, and in the same second a wave of 404s on
-`/assets/*.js` — files the deployed HTML referenced but that the deploy had
-replaced with new hashes. A single-page app that cannot load its bundle
-renders nothing, so the crawler saw an empty page.
+Measured on 2026-09-14: ads on the same `target_url` were rejected with
+`crawl_failed` while others on that exact URL passed. The nginx log showed the
+review crawls arriving as **HTTP 200 with the full 30 KB of HTML**, and in the
+same seconds a wave of 404s on `/assets/*.js`. A single-page app that cannot
+load its bundle renders nothing, so the crawler photographed an empty page.
 
-Two things follow:
+**The cause was a prerender cache, and it does not clear itself.** The site
+serves bots a pre-rendered snapshot. After a deploy the snapshot still names
+the previous build's hashed bundles, which no longer exist. Curl proved it:
 
-- **A 200 on the URL does not clear this.** Check every asset the page
-  references, not just the page.
-- **The rejection is per ad, not per URL.** Five ads on the same URL passed.
-  Whether a crawl lands during the window of stale references is timing.
+```
+bot user-agent     -> /assets/AutomationPage-DXlmSwfy.js   (404)
+browser user-agent -> /assets/index-DtokPDlH.js            (200)
+```
+
+Same URL, different HTML, and only the bot's version is broken. Clearing the
+cache and re-warming it fixed all 34 references in one step.
+
+Three things follow:
+
+- **A 200 on the URL proves nothing.** Fetch the page *with a bot user-agent*
+  and check every asset it references. The browser version can be perfect
+  while the crawled one is unusable.
+- **The rejection is per ad, not per URL.** Whether a given crawl lands inside
+  the broken window is timing, which is why the same URL passes and fails in
+  the same batch.
+- **Re-deploying is not the fix and can be a distraction.** The deploy was
+  correct; the snapshot in front of it was stale.
 
 The `review.screenshot_url` on a rejected ad shows what the crawler saw. A
 mostly white image with few distinct colours means the render failed; a normal
