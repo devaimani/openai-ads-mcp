@@ -91,6 +91,26 @@ check.
 **Does not exist.** On PyPI, `openai-ads`, `openai_ads`, `chatgpt-ads` and
 `openai-advertising` are all absent. The documentation shows `curl` only.
 
+> "Negative keywords", account-wide exclusion lists
+
+**No such endpoint exists**, on this account at least. Probed live on
+2026-09-14: `/negative_keywords`, `/ad_account/negative_keywords`,
+`/ad_account/blocked_keywords`, `/ad_account/exclusions`, `/blocked_keywords`,
+`/exclusions` and `/ad_account/brand_safety` all answer `Invalid URL` or
+`Invalid method` on both GET and POST.
+
+The word "negative" does not appear anywhere in the published documentation
+either, including `/ads/llms.txt`, which lists all 29 pages.
+
+**This server's own `set_negative_keywords` tool therefore cannot work.** It
+posts to `/ad_account/negative_keywords`. The tool needs either a source or
+removal; the limits it documents (100 entries, 1 to 100 characters) are
+unsourced as well.
+
+Consequence for campaign work: exclusions have to be handled through the
+`context_hints` themselves, by describing the intent narrowly enough that the
+wrong conversations do not match. There is no separate blocklist.
+
 > "Keyword research", "which keywords convert best", "a planner like Google's"
 
 **None of it exists**, and not because the platform is young: there are no

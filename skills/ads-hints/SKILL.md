@@ -92,7 +92,24 @@ before treating them as chat usage data.
 
 ## Negative keywords
 
-**Account-wide only, at most 100 entries, 1 to 100 characters each.** There is
+<!-- Verified: 2026-09-14 against the live API -->
+
+**There is no negative keyword endpoint.** Seven candidate paths were probed
+live on 2026-09-14, GET and POST, and all answered `Invalid URL` or
+`Invalid method`. The word does not appear anywhere in the published
+documentation either. The `set_negative_keywords` tool in this server posts to
+`/ad_account/negative_keywords`, which does not exist.
+
+So exclusion happens inside the hints themselves. Describe the intent narrowly
+enough that the wrong conversations do not match: "a company wants to automate
+repetitive workflows" pulls in far less noise than "automation". Where a hint
+attracts the wrong audience, the fix is to rewrite or move it, not to block a
+term elsewhere.
+
+What follows was written for the assumed endpoint and is kept because the
+thinking still applies to choosing hints, not because the list can be set.
+
+**Formerly assumed: account-wide only, at most 100 entries.** There is
 no per-campaign or per-group scoping.
 
 The scarcity is the point: every slot has to earn its place by working broadly.
@@ -113,8 +130,9 @@ Common exclusion themes for a B2B service business:
 Check each one: does it also exclude genuine prospects? "Cost" does **not**
 belong on the list — asking about cost often signals real intent.
 
-Set them with `set_negative_keywords`. **The list is replaced entirely**, not
-appended to, so always send the full intended list.
+`set_negative_keywords` claims to set them and posts to a path the API does not
+have. Until a working endpoint is found, treat the themes above as a checklist
+for writing hints: if a theme would match your hint, the hint is too broad.
 
 ## Refining
 
