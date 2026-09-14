@@ -91,6 +91,28 @@ check.
 **Does not exist.** On PyPI, `openai-ads`, `openai_ads`, `chatgpt-ads` and
 `openai-advertising` are all absent. The documentation shows `curl` only.
 
+> "Ad scheduling", "dayparting", "business hours only", "weekdays only"
+
+**Does not exist.** Probed live on 2026-09-14 against campaign and ad group:
+`schedule`, `ad_schedule`, `dayparting`, `targeting.schedule`,
+`targeting.day_parting`, `targeting.time_of_day`, `delivery_schedule` and
+`bidding_config.schedule` all answer `Unknown parameter`.
+
+The campaigns reference lists every accepted field, and the only temporal ones
+are `start_time` and `end_time`: single Unix timestamps that switch a campaign
+on and off once. There is no recurring weekly pattern and no hour of day.
+
+`POST /ad_account/daily_spend_limit` caps how much is spent per day, but it is
+account-wide, says nothing about when within the day, and returned `403 Only ad
+account admins can perform this action` for an ordinary advertiser key.
+
+Why this matters for B2B: the instinct to restrict delivery to office hours
+has nowhere to attach. And the premise is weaker here than on a search network
+— someone asking an assistant about their invoicing workflow on a Sunday
+evening is describing a work problem, not idly browsing. The lever that does
+exist is the wording of `context_hints`: describe a workplace situation and the
+delivery follows the intent rather than the clock.
+
 > "Negative keywords", account-wide exclusion lists
 
 **No such endpoint exists**, on this account at least. Probed live on
