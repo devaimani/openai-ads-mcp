@@ -103,6 +103,30 @@ different motives, so a difference in outcome is interpretable.
 Record **what each variant is meant to test**, otherwise the result cannot be
 read later.
 
+## The image
+
+<!-- Verified: 2026-09-14 against a live account -->
+
+Two measurements change how a motif should be drawn.
+
+**The card crops to a centre strip.** A created ad carries an `image_crop`,
+and on a 16:9 upload it read `width: 0.558, height: 1, x: 0.221` — the middle
+56 % of the width at full height, which is square. Supplying 16:9 throws away
+44 % of the image, 304 px on each side of a 1376 px file. **Upload square.**
+
+**It renders at about 116×116.** Measured in a preview. That is roughly a
+thumbnail, so:
+
+- One object, or one relation between two objects. Anything with three or more
+  elements turns to texture.
+- The signal colour needs area, not a line. A motif that carries it on a thin
+  outline loses it entirely; one that fills a whole shape still reads.
+- Fine hatching, thin rules and small repeated marks disappear. Contrast
+  between large flat areas survives.
+
+Check a draft by downscaling it to 116 px and looking at it at that size. If
+you cannot tell what it is, neither can the reader.
+
 ## Landing page
 
 The headline has to match what the reader finds after the click. The most
