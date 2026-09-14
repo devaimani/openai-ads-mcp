@@ -67,6 +67,27 @@ Only fields with the `_micros` suffix are micros. The insights fields `spend`,
 Valid optimisation targets for lead generation: `lead_created`,
 `appointment_scheduled`, `registration_completed`, `trial_started`.
 
+## Creating conversion setup
+
+<!-- Verified: 2026-09-14 against the live API -->
+
+Both create routes exist and take POST, so a pixel does not have to be made in
+the dashboard:
+
+| Route | Required fields |
+|---|---|
+| `/conversions/pixels` | `name`, `client_type` (only `web` is accepted) |
+| `/conversions/event_settings` | `name`, `event_type`, `attribution_window_days`, `source_ids` |
+
+**`attribution_window_days` must be 7, 14 or 30.** Anything else is refused
+with 422. The allowed set appears in no documentation page; the API states it
+in the error.
+
+`source_ids` takes the source's `id` (`cds_…`), **not** its `pixel_id`. The
+`pixel_id` is the public value for the browser snippet.
+
+`/conversions/sources` does not exist.
+
 ## Conversion events (13 standard types)
 
 `app_installed`, `app_opened` (both only via the Conversions API with
@@ -100,6 +121,34 @@ Delivery requires campaign **and** ad group **and** ad to be active.
 | **409** | account profile incomplete — **also occurs sporadically**, clears on retry |
 | 429 | rate limit |
 | 503 | on custom audiences: retry, not a failure |
+
+## No forecasting, no keyword planning
+
+<!-- Verified: 2026-09-14 against the live API -->
+
+There is no endpoint that predicts volume, reach, cost or conversions before
+anything is spent. 28 candidate paths were probed live on 2026-09-14 and every
+one answered `Invalid URL`:
+
+`/forecast` `/forecasts` `/reach_estimate` `/delivery_estimate`
+`/traffic_estimate` `/keyword_ideas` `/keyword_plan` `/keyword_planner`
+`/keywords` `/context_hints` `/context_hint_suggestions` `/context_hint_ideas`
+`/suggestions` `/planner` `/audience_size` `/audience_estimate`
+`/bid_estimate` `/bid_suggestions` `/benchmarks` `/search_terms`
+`/search_term_insights` `/trends` `/topics`, plus the same names under
+`/ad_account/`.
+
+The control URL `/ad_account/insights` returned 200 in the same run, so the
+probe itself was sound.
+
+There are no search term reports either: you never learn which phrasing
+produced an impression. The ad group stays the smallest unit of measurement,
+which is why group layout is the whole measurement design.
+
+**When probing this API, go through an HTTP client that sets a normal
+User-Agent.** A raw `urllib` request is answered by Cloudflare with 403 before
+it reaches the API, including for endpoints that demonstrably work. That makes
+every path look absent.
 
 ## Mutation semantics
 

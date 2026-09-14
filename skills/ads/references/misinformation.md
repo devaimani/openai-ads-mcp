@@ -90,3 +90,33 @@ check.
 
 **Does not exist.** On PyPI, `openai-ads`, `openai_ads`, `chatgpt-ads` and
 `openai-advertising` are all absent. The documentation shows `curl` only.
+
+> "Keyword research", "which keywords convert best", "a planner like Google's"
+
+**None of it exists**, and not because the platform is young: there are no
+keywords to plan. Delivery runs on `context_hints`, free text evaluated
+semantically. See `platform-facts.md`, "No forecasting, no keyword planning",
+for the 28 endpoints probed live.
+
+## Measurement Pixel
+
+> Waiting for the SDK to load before calling `oaiq("init", ...)`
+
+**Wrong, and it silently drops conversions.** Measured on 2026-09-14 while
+integrating the pixel into a React site: with `await` on `script.onload`
+before `init`, the queue `oaiq.q` stayed **empty** and nothing was ever
+reported. TypeScript and the build were both clean.
+
+The snippet's queue pattern exists precisely so `oaiq(...)` is callable
+immediately: calls collect in `q.q` and are replayed once the script runs.
+Waiting for `onload` loses every event that happens first. Invisible on a fast
+connection; on a blocked CDN it is every single one.
+
+Create the queue synchronously, let the script load unattended, and never
+`reject` in `onerror` (that aborts initialisation instead of just failing to
+load).
+
+Verify by reading `window.oaiq.q` in the browser, not by checking that the
+build passes. The correct sequence for a consent-gated page is
+`["consent",false]`, `["init",{pixelId}]`, `["consent",true]`, then the
+`measure` call.
