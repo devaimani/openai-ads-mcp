@@ -122,6 +122,35 @@ Delivery requires campaign **and** ad group **and** ad to be active.
 | 429 | rate limit |
 | 503 | on custom audiences: retry, not a failure |
 
+## crawl_failed can mean stale asset references
+
+<!-- Verified: 2026-09-14 against a live account -->
+
+`crawl_failed` reads like the landing page was unreachable. It can also mean
+the page loaded fine and its JavaScript did not.
+
+Measured on 2026-09-14: one of six ads on the same `target_url` was rejected
+with `crawl_failed`. The nginx log showed 12 review crawls, **all HTTP 200
+with the full 30 KB of HTML**, and in the same second a wave of 404s on
+`/assets/*.js` — files the deployed HTML referenced but that the deploy had
+replaced with new hashes. A single-page app that cannot load its bundle
+renders nothing, so the crawler saw an empty page.
+
+Two things follow:
+
+- **A 200 on the URL does not clear this.** Check every asset the page
+  references, not just the page.
+- **The rejection is per ad, not per URL.** Five ads on the same URL passed.
+  Whether a crawl lands during the window of stale references is timing.
+
+The `review.screenshot_url` on a rejected ad shows what the crawler saw. A
+mostly white image with few distinct colours means the render failed; a normal
+colour distribution points elsewhere.
+
+To retry: re-POST the **full** creative object unchanged. Per the
+troubleshooting page, "editing ad creative creates a new submitted version and
+triggers another creative review". Changing status does not re-review.
+
 ## No forecasting, no keyword planning
 
 <!-- Verified: 2026-09-14 against the live API -->
